@@ -21,7 +21,6 @@ def test_create_seat():
 
     # TEST CASE 3: create seat with pos_x is 0
     tmp_seat = Seat(pos_x=0, pos_y=1)
-    print(Seat(pos_x=0, pos_y=1))
     assert tmp_seat.pos_x == 0
     assert tmp_seat.pos_y == 1
 
