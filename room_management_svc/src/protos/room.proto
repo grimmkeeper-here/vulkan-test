@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package room;
+
+option go_package = "../pb";
+
+import "google/protobuf/empty.proto";
+
+message Room {
+    int32 id = 1;
+    int32 row = 2;
+    int32 col = 3;
+}
+
+message ListRoomsResponse {
+    repeated Room rooms = 1;
+}
+
+message GetRoomRequest {
+    int32 id = 1;
+}
+
+message GetRoomResponse {
+    Room room = 1;
+}
+
+message AddRoomRequest {
+    int32 row = 1;
+    int32 col = 2;
+}
+
+message AddRoomResponse {
+    string status = 1;
+    int32 id = 2;
+}
+
+message RemoveRoomRequest {
+    int32 id = 1;
+}
+
+message RemoveRoomResponse {
+    string status = 1;
+}
+
+service RoomService {
+    rpc AddRoom(AddRoomRequest) returns (AddRoomResponse);
+    rpc RemoveRoom(RemoveRoomRequest) returns (RemoveRoomResponse);
+    rpc ListRooms(google.protobuf.Empty) returns (ListRoomsResponse);
+    rpc GetRoom(GetRoomRequest) returns (GetRoomResponse);
+}
