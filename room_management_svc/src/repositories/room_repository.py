@@ -4,7 +4,7 @@ from typing import Optional
 from src.config import settings
 from src.entities.rooms import Room
 from src.repositories.db_connection import get_db_connection
-from src.repositories.redis_client import RedisClient
+from src.services.redis_client import RedisClient
 
 
 class RoomRepository:
@@ -24,7 +24,7 @@ class RoomRepository:
             room_data = cursor.fetchone()
             conn.commit()
             cursor.close()
-            if room_data is None or cursor.description is None:
+            if not room_data:
                 return None
             return Room(
                 id=room_data[0],
@@ -36,6 +36,7 @@ class RoomRepository:
     def remove_room(self, room_id: int):
         # Invalidate cache when a new room is added
         self.redis_client.client.delete("rooms_cache")
+        self.redis_client.client.delete(f"room_{room_id}")
 
         with get_db_connection() as conn:
             cursor = conn.cursor()

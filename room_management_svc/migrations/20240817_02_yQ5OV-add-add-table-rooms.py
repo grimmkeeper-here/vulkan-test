@@ -27,10 +27,10 @@ steps = [
          """,
         """
             --- Drop trigger update_room_updated_at
-            DROP TRIGGER update_room_updated_at ON room;
+            DROP TRIGGER IF EXISTS update_room_updated_at ON room;
 
             --- Drop table room
-            DROP TABLE room;
+            DROP TABLE IF EXISTS room;
          """,
     )
 ]

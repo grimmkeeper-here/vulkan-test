@@ -26,7 +26,7 @@ services:
       interval: 10s
       retries: 5
 
-  room_management_svc:
+  seeder:
     build: ./room_management_svc
     ports:
       - "50051:50051"
@@ -43,6 +43,25 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+
+    command: ["python", "src/yoyo_migration.py"]
+
+
+  room_management_svc:
+    build: ./room_management_svc
+    ports:
+      - "50051:50051"
+    environment:
+      - DB_NAME=my_user
+      - DB_USER=my_user
+      - DB_PASSWORD=my_password
+      - DB_HOST=host.docker.internal
+      - DB_PORT=5432
+      - REDIS_HOST=host.docker.internal
+      - REDIS_PORT=6379
+    depends_on:
+      seeder:
+        condition: service_completed_successfully
 
     command: ["python", "src/main.py"]
 

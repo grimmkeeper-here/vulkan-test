@@ -29,9 +29,13 @@ func main() {
 	roomHandler := handlers.NewRoomHandler(roomUseCase)
 
 	r.POST("/rooms", roomHandler.AddRoom)
-    r.DELETE("/rooms/:id", roomHandler.RemoveRoom)
-    r.GET("/rooms/:id", roomHandler.GetRoom)
-    r.GET("/rooms", roomHandler.ListRooms)
+	r.DELETE("/rooms/:id", roomHandler.RemoveRoom)
+	r.GET("/rooms/:id", roomHandler.GetRoom)
+	r.GET("/rooms", roomHandler.ListRooms)
+	r.GET("/rooms/:id/seats/available", roomHandler.GetAvailableSeats)
+	r.POST("/rooms/:id/seats/reserve", roomHandler.ReserveSeats)
+	r.DELETE("/rooms/:id/seats/cancel", roomHandler.CancelSeats)
+	r.GET("/rooms/:id/seats", roomHandler.ListRoomSeats)
 
 	// Start the Gin server
 	if err := r.Run(":8080"); err != nil {

@@ -20,10 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RoomService_AddRoom_FullMethodName    = "/room.RoomService/AddRoom"
-	RoomService_RemoveRoom_FullMethodName = "/room.RoomService/RemoveRoom"
-	RoomService_ListRooms_FullMethodName  = "/room.RoomService/ListRooms"
-	RoomService_GetRoom_FullMethodName    = "/room.RoomService/GetRoom"
+	RoomService_AddRoom_FullMethodName           = "/room.RoomService/AddRoom"
+	RoomService_RemoveRoom_FullMethodName        = "/room.RoomService/RemoveRoom"
+	RoomService_ListRooms_FullMethodName         = "/room.RoomService/ListRooms"
+	RoomService_GetRoom_FullMethodName           = "/room.RoomService/GetRoom"
+	RoomService_GetAvailableSeats_FullMethodName = "/room.RoomService/GetAvailableSeats"
+	RoomService_ReserveSeats_FullMethodName      = "/room.RoomService/ReserveSeats"
+	RoomService_CancelSeats_FullMethodName       = "/room.RoomService/CancelSeats"
+	RoomService_ListRoomSeats_FullMethodName     = "/room.RoomService/ListRoomSeats"
 )
 
 // RoomServiceClient is the client API for RoomService service.
@@ -34,6 +38,10 @@ type RoomServiceClient interface {
 	RemoveRoom(ctx context.Context, in *RemoveRoomRequest, opts ...grpc.CallOption) (*RemoveRoomResponse, error)
 	ListRooms(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListRoomsResponse, error)
 	GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error)
+	GetAvailableSeats(ctx context.Context, in *GetAvailableSeatsRequest, opts ...grpc.CallOption) (*GetAvailableSeatsResponse, error)
+	ReserveSeats(ctx context.Context, in *ReserveSeatsRequest, opts ...grpc.CallOption) (*ReserveSeatsResponse, error)
+	CancelSeats(ctx context.Context, in *CancelSeatsRequest, opts ...grpc.CallOption) (*CancelSeatsResponse, error)
+	ListRoomSeats(ctx context.Context, in *ListRoomSeatsRequest, opts ...grpc.CallOption) (*ListRoomSeatsResponse, error)
 }
 
 type roomServiceClient struct {
@@ -84,6 +92,46 @@ func (c *roomServiceClient) GetRoom(ctx context.Context, in *GetRoomRequest, opt
 	return out, nil
 }
 
+func (c *roomServiceClient) GetAvailableSeats(ctx context.Context, in *GetAvailableSeatsRequest, opts ...grpc.CallOption) (*GetAvailableSeatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAvailableSeatsResponse)
+	err := c.cc.Invoke(ctx, RoomService_GetAvailableSeats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roomServiceClient) ReserveSeats(ctx context.Context, in *ReserveSeatsRequest, opts ...grpc.CallOption) (*ReserveSeatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReserveSeatsResponse)
+	err := c.cc.Invoke(ctx, RoomService_ReserveSeats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roomServiceClient) CancelSeats(ctx context.Context, in *CancelSeatsRequest, opts ...grpc.CallOption) (*CancelSeatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelSeatsResponse)
+	err := c.cc.Invoke(ctx, RoomService_CancelSeats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roomServiceClient) ListRoomSeats(ctx context.Context, in *ListRoomSeatsRequest, opts ...grpc.CallOption) (*ListRoomSeatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRoomSeatsResponse)
+	err := c.cc.Invoke(ctx, RoomService_ListRoomSeats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RoomServiceServer is the server API for RoomService service.
 // All implementations must embed UnimplementedRoomServiceServer
 // for forward compatibility.
@@ -92,6 +140,10 @@ type RoomServiceServer interface {
 	RemoveRoom(context.Context, *RemoveRoomRequest) (*RemoveRoomResponse, error)
 	ListRooms(context.Context, *emptypb.Empty) (*ListRoomsResponse, error)
 	GetRoom(context.Context, *GetRoomRequest) (*GetRoomResponse, error)
+	GetAvailableSeats(context.Context, *GetAvailableSeatsRequest) (*GetAvailableSeatsResponse, error)
+	ReserveSeats(context.Context, *ReserveSeatsRequest) (*ReserveSeatsResponse, error)
+	CancelSeats(context.Context, *CancelSeatsRequest) (*CancelSeatsResponse, error)
+	ListRoomSeats(context.Context, *ListRoomSeatsRequest) (*ListRoomSeatsResponse, error)
 	mustEmbedUnimplementedRoomServiceServer()
 }
 
@@ -113,6 +165,18 @@ func (UnimplementedRoomServiceServer) ListRooms(context.Context, *emptypb.Empty)
 }
 func (UnimplementedRoomServiceServer) GetRoom(context.Context, *GetRoomRequest) (*GetRoomResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRoom not implemented")
+}
+func (UnimplementedRoomServiceServer) GetAvailableSeats(context.Context, *GetAvailableSeatsRequest) (*GetAvailableSeatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAvailableSeats not implemented")
+}
+func (UnimplementedRoomServiceServer) ReserveSeats(context.Context, *ReserveSeatsRequest) (*ReserveSeatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReserveSeats not implemented")
+}
+func (UnimplementedRoomServiceServer) CancelSeats(context.Context, *CancelSeatsRequest) (*CancelSeatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelSeats not implemented")
+}
+func (UnimplementedRoomServiceServer) ListRoomSeats(context.Context, *ListRoomSeatsRequest) (*ListRoomSeatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRoomSeats not implemented")
 }
 func (UnimplementedRoomServiceServer) mustEmbedUnimplementedRoomServiceServer() {}
 func (UnimplementedRoomServiceServer) testEmbeddedByValue()                     {}
@@ -207,6 +271,78 @@ func _RoomService_GetRoom_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RoomService_GetAvailableSeats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAvailableSeatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoomServiceServer).GetAvailableSeats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RoomService_GetAvailableSeats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoomServiceServer).GetAvailableSeats(ctx, req.(*GetAvailableSeatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoomService_ReserveSeats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReserveSeatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoomServiceServer).ReserveSeats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RoomService_ReserveSeats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoomServiceServer).ReserveSeats(ctx, req.(*ReserveSeatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoomService_CancelSeats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelSeatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoomServiceServer).CancelSeats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RoomService_CancelSeats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoomServiceServer).CancelSeats(ctx, req.(*CancelSeatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoomService_ListRoomSeats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRoomSeatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoomServiceServer).ListRoomSeats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RoomService_ListRoomSeats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoomServiceServer).ListRoomSeats(ctx, req.(*ListRoomSeatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RoomService_ServiceDesc is the grpc.ServiceDesc for RoomService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -229,6 +365,22 @@ var RoomService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetRoom",
 			Handler:    _RoomService_GetRoom_Handler,
+		},
+		{
+			MethodName: "GetAvailableSeats",
+			Handler:    _RoomService_GetAvailableSeats_Handler,
+		},
+		{
+			MethodName: "ReserveSeats",
+			Handler:    _RoomService_ReserveSeats_Handler,
+		},
+		{
+			MethodName: "CancelSeats",
+			Handler:    _RoomService_CancelSeats_Handler,
+		},
+		{
+			MethodName: "ListRoomSeats",
+			Handler:    _RoomService_ListRoomSeats_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

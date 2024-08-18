@@ -1,12 +1,19 @@
+import json
 from typing import List, Optional, Tuple
 
+from src.config import settings
 from src.entities.rooms import Room
+from src.entities.seats import Seat
 from src.repositories.room_repository import RoomRepository
+from src.repositories.seat_repository import SeatRepository
+from src.services.redis_client import RedisClient
 
 
 class RoomManagement:
     def __init__(self):
         self.room_repository = RoomRepository()
+        self.seat_repository = SeatRepository()
+        self.redis_client = RedisClient()
 
     def add_room(self, row: int, col: int) -> Optional[Room]:
         return self.room_repository.add_room(row=row, col=col)
@@ -20,6 +27,79 @@ class RoomManagement:
     def get_room(self, room_id: int) -> Optional[Room]:
         return self.room_repository.get_room(room_id=room_id)
 
+    def list_room_seats(self, room_id: int) -> List[Seat]:
+        return self.seat_repository.list_seats_by_room_id(room_id=room_id)
+
+    def get_room_available_seats(
+        self, room: Room, min_distance: int
+    ) -> List[Tuple[int, int]]:
+        # Check if the result is cached
+        cached_available_seats = self.redis_client.get(
+            f"room_available_seats_{room.id}_{min_distance}"
+        )
+        if cached_available_seats:
+            return json.loads(cached_available_seats)
+
+        # Get all seats in the room
+        list_room_seats = self.list_room_seats(room_id=room.id)
+        room.add_seats(list_room_seats)
+
+        available_seats = self.get_available_seats(room=room, min_distance=min_distance)
+
+        # Cache the result
+        self.redis_client.set(
+            f"room_available_seats_{room.id}_{min_distance}",
+            json.dumps(available_seats),
+            ex=settings.redis_key_ttl,
+        )
+        return available_seats
+
+    def reverse_room_seats(
+        self, room: Room, seats: List[Tuple[int, int]]
+    ) -> List[Tuple[int, int]]:
+        # DLM lock all seats
+        # Aquire lock for all seats to prevent another flow from reserving the same seat
+        lock_keys = []
+        for seat in seats:
+            tmp_lock = self.redis_client.acquire_lock(
+                f"room_seat_{room.id}_{seat[0]}_{seat[1]}", settings.redis_key_ttl
+            )
+            if not tmp_lock:
+                raise Exception(
+                    f"Failed to acquire lock for room_seat_{room.id}_{seat[0]}_{seat[1]}"
+                )
+            lock_keys.append(tmp_lock)
+        try:
+            return self.seat_repository.reverse_seats(room_id=room.id, seats=seats)
+        except Exception as e:
+            raise e
+        finally:
+            # DLM unlock all seats
+            for lock_key in lock_keys:
+                self.redis_client.release_lock(lock_key)
+
+    def cancel_room_seats(self, room: Room, seats: List[Seat]):
+        # DLM lock all seats
+        # Aquire lock for all seats to prevent another flow from cancel the same seat
+        lock_keys = []
+        for seat in seats:
+            tmp_lock = self.redis_client.acquire_lock(
+                f"room_seat_{room.id}_{seat.pos_x}_{seat.pos_y}", settings.redis_key_ttl
+            )
+            if not tmp_lock:
+                raise Exception(
+                    f"Failed to acquire lock for room_seat_{room.id}_{seat.pos_x}_{seat.pos_y}"
+                )
+            lock_keys.append(tmp_lock)
+        try:
+            return self.seat_repository.cancel_seats(room_id=room.id, seats=seats)
+        except Exception as e:
+            raise e
+        finally:
+            # DLM unlock all seats
+            for lock_key in lock_keys:
+                self.redis_client.release_lock(lock_key)
+
     def get_available_seats(
         self, room: Room, min_distance: int
     ) -> List[Tuple[int, int]]:
@@ -32,8 +112,28 @@ class RoomManagement:
         if len(room.seats) == room.row * room.col:
             return []
 
-        # If some seats are taken, return available seats
         available_seats: List[Tuple[int, int]] = []
+        # If min_distance is 0, return all seats without taken seats
+        if min_distance == 0:
+            available_seats = list(
+                set(
+                    [
+                        (pos_x, pos_y)
+                        for pos_x in range(room.row)
+                        for pos_y in range(room.col)
+                    ]
+                )
+                - set([(seat.pos_x, seat.pos_y) for seat in room.seats])
+            )
+
+            # Return sorted available seats base on pos_x, pos_y
+            available_seats = sorted(
+                available_seats, key=lambda item: (item[0], item[1])
+            )
+
+            return available_seats
+
+        # If some seats are taken, return available seats
         cur_position_seats: List[Tuple[int, int]] = [
             (seat.pos_x, seat.pos_y) for seat in room.seats
         ]
@@ -58,11 +158,8 @@ class RoomManagement:
             # Inner join available_seats and available_per_taken_seat
             available_seats = list(set(available_seats) & set(available_per_taken_seat))
 
-        # Return sorted available seats base on pos_x
-        available_seats = sorted(
-            available_seats,
-            key=lambda seat_position: (seat_position[0], seat_position[1]),
-        )
+        # Return sorted available seats base on pos_x, pos_y
+        available_seats = sorted(available_seats, key=lambda item: (item[0], item[1]))
 
         return available_seats
 

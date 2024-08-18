@@ -12,13 +12,15 @@ steps = [
             --- Create table seat
             CREATE TABLE seat (
                 id SERIAL PRIMARY KEY,
-                room_id INT NOT NULL REFERENCES room(id) ON DELETE CASCADE,
+                room_id INT REFERENCES room(id),
                 pos_x INT NOT NULL,
                 pos_y INT NOT NULL,
-                is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
-                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                is_deleted BOOLEAN DEFAULT FALSE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
+
+            CREATE UNIQUE INDEX idx_room_pos ON seat (room_id, pos_x, pos_y);
 
             --- Create trigger updated_at
             CREATE TRIGGER update_seat_updated_at
@@ -30,8 +32,11 @@ steps = [
             --- Drop trigger updated_at
             DROP TRIGGER update_seat_updated_at ON seat;
 
+            -- Drop the index
+            DROP INDEX IF EXISTS idx_room_pos;
+
             --- Drop table seat
-            DROP TABLE seat;
+            DROP TABLE IF EXISTS seat;
          """,
     )
 ]

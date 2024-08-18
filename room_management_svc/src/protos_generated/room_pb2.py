@@ -7,6 +7,7 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
+
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -14,31 +15,50 @@ _sym_db = _symbol_database.Default()
 
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
-
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nroom.proto\x12\x04room\x1a\x1bgoogle/protobuf/empty.proto\",\n\x04Room\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0b\n\x03row\x18\x02 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x03 \x01(\x05\".\n\x11ListRoomsResponse\x12\x19\n\x05rooms\x18\x01 \x03(\x0b\x32\n.room.Room\"\x1c\n\x0eGetRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05\";\n\x0fGetRoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x18\n\x04room\x18\x02 \x01(\x0b\x32\n.room.Room\"*\n\x0e\x41\x64\x64RoomRequest\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05\"-\n\x0f\x41\x64\x64RoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x05\"\x1f\n\x11RemoveRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"$\n\x12RemoveRoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t2\xfc\x01\n\x0bRoomService\x12\x36\n\x07\x41\x64\x64Room\x12\x14.room.AddRoomRequest\x1a\x15.room.AddRoomResponse\x12?\n\nRemoveRoom\x12\x17.room.RemoveRoomRequest\x1a\x18.room.RemoveRoomResponse\x12<\n\tListRooms\x12\x16.google.protobuf.Empty\x1a\x17.room.ListRoomsResponse\x12\x36\n\x07GetRoom\x12\x14.room.GetRoomRequest\x1a\x15.room.GetRoomResponseB\x07Z\x05../pbb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\nroom.proto\x12\x04room\x1a\x1bgoogle/protobuf/empty.proto",\n\x04Room\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0b\n\x03row\x18\x02 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x03 \x01(\x05"N\n\x04Seat\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\x05pos_x\x18\x02 \x01(\x05H\x00\x88\x01\x01\x12\x12\n\x05pos_y\x18\x03 \x01(\x05H\x01\x88\x01\x01\x42\x08\n\x06_pos_xB\x08\n\x06_pos_y".\n\x11ListRoomsResponse\x12\x19\n\x05rooms\x18\x01 \x03(\x0b\x32\n.room.Room"\x1c\n\x0eGetRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05";\n\x0fGetRoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x18\n\x04room\x18\x02 \x01(\x0b\x32\n.room.Room"*\n\x0e\x41\x64\x64RoomRequest\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05"-\n\x0f\x41\x64\x64RoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x05"\x1f\n\x11RemoveRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05"$\n\x12RemoveRoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t"+\n\x18GetAvailableSeatsRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05"F\n\x19GetAvailableSeatsResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x19\n\x05seats\x18\x02 \x03(\x0b\x32\n.room.Seat"A\n\x13ReserveSeatsRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\x19\n\x05seats\x18\x02 \x03(\x0b\x32\n.room.Seat"A\n\x14ReserveSeatsResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x19\n\x05seats\x18\x02 \x03(\x0b\x32\n.room.Seat"7\n\x12\x43\x61ncelSeatsRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\x10\n\x08seat_ids\x18\x02 \x03(\x05"%\n\x13\x43\x61ncelSeatsResponse\x12\x0e\n\x06status\x18\x01 \x01(\t"\'\n\x14ListRoomSeatsRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05"B\n\x15ListRoomSeatsResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x19\n\x05seats\x18\x02 \x03(\x0b\x32\n.room.Seat2\xa7\x04\n\x0bRoomService\x12\x36\n\x07\x41\x64\x64Room\x12\x14.room.AddRoomRequest\x1a\x15.room.AddRoomResponse\x12?\n\nRemoveRoom\x12\x17.room.RemoveRoomRequest\x1a\x18.room.RemoveRoomResponse\x12<\n\tListRooms\x12\x16.google.protobuf.Empty\x1a\x17.room.ListRoomsResponse\x12\x36\n\x07GetRoom\x12\x14.room.GetRoomRequest\x1a\x15.room.GetRoomResponse\x12T\n\x11GetAvailableSeats\x12\x1e.room.GetAvailableSeatsRequest\x1a\x1f.room.GetAvailableSeatsResponse\x12\x45\n\x0cReserveSeats\x12\x19.room.ReserveSeatsRequest\x1a\x1a.room.ReserveSeatsResponse\x12\x42\n\x0b\x43\x61ncelSeats\x12\x18.room.CancelSeatsRequest\x1a\x19.room.CancelSeatsResponse\x12H\n\rListRoomSeats\x12\x1a.room.ListRoomSeatsRequest\x1a\x1b.room.ListRoomSeatsResponseB\x07Z\x05../pbb\x06proto3'
+)
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'room_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "room_pb2", _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  _globals['DESCRIPTOR']._loaded_options = None
-  _globals['DESCRIPTOR']._serialized_options = b'Z\005../pb'
-  _globals['_ROOM']._serialized_start=49
-  _globals['_ROOM']._serialized_end=93
-  _globals['_LISTROOMSRESPONSE']._serialized_start=95
-  _globals['_LISTROOMSRESPONSE']._serialized_end=141
-  _globals['_GETROOMREQUEST']._serialized_start=143
-  _globals['_GETROOMREQUEST']._serialized_end=171
-  _globals['_GETROOMRESPONSE']._serialized_start=173
-  _globals['_GETROOMRESPONSE']._serialized_end=232
-  _globals['_ADDROOMREQUEST']._serialized_start=234
-  _globals['_ADDROOMREQUEST']._serialized_end=276
-  _globals['_ADDROOMRESPONSE']._serialized_start=278
-  _globals['_ADDROOMRESPONSE']._serialized_end=323
-  _globals['_REMOVEROOMREQUEST']._serialized_start=325
-  _globals['_REMOVEROOMREQUEST']._serialized_end=356
-  _globals['_REMOVEROOMRESPONSE']._serialized_start=358
-  _globals['_REMOVEROOMRESPONSE']._serialized_end=394
-  _globals['_ROOMSERVICE']._serialized_start=397
-  _globals['_ROOMSERVICE']._serialized_end=649
+    _globals["DESCRIPTOR"]._loaded_options = None
+    _globals["DESCRIPTOR"]._serialized_options = b"Z\005../pb"
+    _globals["_ROOM"]._serialized_start = 49
+    _globals["_ROOM"]._serialized_end = 93
+    _globals["_SEAT"]._serialized_start = 95
+    _globals["_SEAT"]._serialized_end = 173
+    _globals["_LISTROOMSRESPONSE"]._serialized_start = 175
+    _globals["_LISTROOMSRESPONSE"]._serialized_end = 221
+    _globals["_GETROOMREQUEST"]._serialized_start = 223
+    _globals["_GETROOMREQUEST"]._serialized_end = 251
+    _globals["_GETROOMRESPONSE"]._serialized_start = 253
+    _globals["_GETROOMRESPONSE"]._serialized_end = 312
+    _globals["_ADDROOMREQUEST"]._serialized_start = 314
+    _globals["_ADDROOMREQUEST"]._serialized_end = 356
+    _globals["_ADDROOMRESPONSE"]._serialized_start = 358
+    _globals["_ADDROOMRESPONSE"]._serialized_end = 403
+    _globals["_REMOVEROOMREQUEST"]._serialized_start = 405
+    _globals["_REMOVEROOMREQUEST"]._serialized_end = 436
+    _globals["_REMOVEROOMRESPONSE"]._serialized_start = 438
+    _globals["_REMOVEROOMRESPONSE"]._serialized_end = 474
+    _globals["_GETAVAILABLESEATSREQUEST"]._serialized_start = 476
+    _globals["_GETAVAILABLESEATSREQUEST"]._serialized_end = 519
+    _globals["_GETAVAILABLESEATSRESPONSE"]._serialized_start = 521
+    _globals["_GETAVAILABLESEATSRESPONSE"]._serialized_end = 591
+    _globals["_RESERVESEATSREQUEST"]._serialized_start = 593
+    _globals["_RESERVESEATSREQUEST"]._serialized_end = 658
+    _globals["_RESERVESEATSRESPONSE"]._serialized_start = 660
+    _globals["_RESERVESEATSRESPONSE"]._serialized_end = 725
+    _globals["_CANCELSEATSREQUEST"]._serialized_start = 727
+    _globals["_CANCELSEATSREQUEST"]._serialized_end = 782
+    _globals["_CANCELSEATSRESPONSE"]._serialized_start = 784
+    _globals["_CANCELSEATSRESPONSE"]._serialized_end = 821
+    _globals["_LISTROOMSEATSREQUEST"]._serialized_start = 823
+    _globals["_LISTROOMSEATSREQUEST"]._serialized_end = 862
+    _globals["_LISTROOMSEATSRESPONSE"]._serialized_start = 864
+    _globals["_LISTROOMSEATSRESPONSE"]._serialized_end = 930
+    _globals["_ROOMSERVICE"]._serialized_start = 933
+    _globals["_ROOMSERVICE"]._serialized_end = 1484
 # @@protoc_insertion_point(module_scope)

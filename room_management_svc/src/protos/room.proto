@@ -12,6 +12,12 @@ message Room {
     int32 col = 3;
 }
 
+message Seat{
+    int32 id = 1;
+    optional int32 pos_x = 2;
+    optional int32 pos_y = 3;
+}
+
 message ListRoomsResponse {
     repeated Room rooms = 1;
 }
@@ -43,9 +49,50 @@ message RemoveRoomResponse {
     string status = 1;
 }
 
+message GetAvailableSeatsRequest {
+    int32 room_id = 1;
+}
+
+message GetAvailableSeatsResponse {
+    string status = 1;
+    repeated Seat seats = 2;
+}
+
+message ReserveSeatsRequest {
+    int32 room_id = 1;
+    repeated Seat seats = 2;
+}
+
+message ReserveSeatsResponse {
+    string status = 1;
+    repeated Seat seats = 2;
+}
+
+message CancelSeatsRequest {
+    int32 room_id = 1;
+    repeated int32 seat_ids = 2;
+}
+
+message CancelSeatsResponse {
+    string status = 1;
+}
+
+message ListRoomSeatsRequest {
+    int32 room_id = 1;
+}
+
+message ListRoomSeatsResponse {
+    string status = 1;
+    repeated Seat seats = 2;
+}
+
 service RoomService {
     rpc AddRoom(AddRoomRequest) returns (AddRoomResponse);
     rpc RemoveRoom(RemoveRoomRequest) returns (RemoveRoomResponse);
     rpc ListRooms(google.protobuf.Empty) returns (ListRoomsResponse);
     rpc GetRoom(GetRoomRequest) returns (GetRoomResponse);
+    rpc GetAvailableSeats(GetAvailableSeatsRequest) returns (GetAvailableSeatsResponse);
+    rpc ReserveSeats(ReserveSeatsRequest) returns (ReserveSeatsResponse);
+    rpc CancelSeats(CancelSeatsRequest) returns (CancelSeatsResponse);
+    rpc ListRoomSeats(ListRoomSeatsRequest) returns (ListRoomSeatsResponse);
 }

@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     redis_db: int = 0
     redis_key_ttl: int = 600
 
+    min_distance: int = 5
+
 
 # Create a singleton instance of the settings to be used throughout the application
 settings = Settings()

@@ -28,3 +28,4 @@ python-dotenv == 1.0.1
 
 # Redis
 redis == 5.0.8 
+redlock-py == 1.0.8 
