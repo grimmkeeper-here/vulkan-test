@@ -21,7 +21,8 @@ message GetRoomRequest {
 }
 
 message GetRoomResponse {
-    Room room = 1;
+    string status = 1;
+    Room room = 2;
 }
 
 message AddRoomRequest {

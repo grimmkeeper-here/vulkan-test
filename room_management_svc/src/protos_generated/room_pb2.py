@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
-
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -15,32 +14,31 @@ _sym_db = _symbol_database.Default()
 
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\nroom.proto\x12\x04room\x1a\x1bgoogle/protobuf/empty.proto",\n\x04Room\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0b\n\x03row\x18\x02 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x03 \x01(\x05".\n\x11ListRoomsResponse\x12\x19\n\x05rooms\x18\x01 \x03(\x0b\x32\n.room.Room"\x1c\n\x0eGetRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05"+\n\x0fGetRoomResponse\x12\x18\n\x04room\x18\x01 \x01(\x0b\x32\n.room.Room"*\n\x0e\x41\x64\x64RoomRequest\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05"-\n\x0f\x41\x64\x64RoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x05"\x1f\n\x11RemoveRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05"$\n\x12RemoveRoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t2\xfc\x01\n\x0bRoomService\x12\x36\n\x07\x41\x64\x64Room\x12\x14.room.AddRoomRequest\x1a\x15.room.AddRoomResponse\x12?\n\nRemoveRoom\x12\x17.room.RemoveRoomRequest\x1a\x18.room.RemoveRoomResponse\x12<\n\tListRooms\x12\x16.google.protobuf.Empty\x1a\x17.room.ListRoomsResponse\x12\x36\n\x07GetRoom\x12\x14.room.GetRoomRequest\x1a\x15.room.GetRoomResponseB\x07Z\x05../pbb\x06proto3'
-)
+
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nroom.proto\x12\x04room\x1a\x1bgoogle/protobuf/empty.proto\",\n\x04Room\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0b\n\x03row\x18\x02 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x03 \x01(\x05\".\n\x11ListRoomsResponse\x12\x19\n\x05rooms\x18\x01 \x03(\x0b\x32\n.room.Room\"\x1c\n\x0eGetRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05\";\n\x0fGetRoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x18\n\x04room\x18\x02 \x01(\x0b\x32\n.room.Room\"*\n\x0e\x41\x64\x64RoomRequest\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05\"-\n\x0f\x41\x64\x64RoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x05\"\x1f\n\x11RemoveRoomRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"$\n\x12RemoveRoomResponse\x12\x0e\n\x06status\x18\x01 \x01(\t2\xfc\x01\n\x0bRoomService\x12\x36\n\x07\x41\x64\x64Room\x12\x14.room.AddRoomRequest\x1a\x15.room.AddRoomResponse\x12?\n\nRemoveRoom\x12\x17.room.RemoveRoomRequest\x1a\x18.room.RemoveRoomResponse\x12<\n\tListRooms\x12\x16.google.protobuf.Empty\x1a\x17.room.ListRoomsResponse\x12\x36\n\x07GetRoom\x12\x14.room.GetRoomRequest\x1a\x15.room.GetRoomResponseB\x07Z\x05../pbb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "room_pb2", _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'room_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-    _globals["DESCRIPTOR"]._loaded_options = None
-    _globals["DESCRIPTOR"]._serialized_options = b"Z\005../pb"
-    _globals["_ROOM"]._serialized_start = 49
-    _globals["_ROOM"]._serialized_end = 93
-    _globals["_LISTROOMSRESPONSE"]._serialized_start = 95
-    _globals["_LISTROOMSRESPONSE"]._serialized_end = 141
-    _globals["_GETROOMREQUEST"]._serialized_start = 143
-    _globals["_GETROOMREQUEST"]._serialized_end = 171
-    _globals["_GETROOMRESPONSE"]._serialized_start = 173
-    _globals["_GETROOMRESPONSE"]._serialized_end = 216
-    _globals["_ADDROOMREQUEST"]._serialized_start = 218
-    _globals["_ADDROOMREQUEST"]._serialized_end = 260
-    _globals["_ADDROOMRESPONSE"]._serialized_start = 262
-    _globals["_ADDROOMRESPONSE"]._serialized_end = 307
-    _globals["_REMOVEROOMREQUEST"]._serialized_start = 309
-    _globals["_REMOVEROOMREQUEST"]._serialized_end = 340
-    _globals["_REMOVEROOMRESPONSE"]._serialized_start = 342
-    _globals["_REMOVEROOMRESPONSE"]._serialized_end = 378
-    _globals["_ROOMSERVICE"]._serialized_start = 381
-    _globals["_ROOMSERVICE"]._serialized_end = 633
+  _globals['DESCRIPTOR']._loaded_options = None
+  _globals['DESCRIPTOR']._serialized_options = b'Z\005../pb'
+  _globals['_ROOM']._serialized_start=49
+  _globals['_ROOM']._serialized_end=93
+  _globals['_LISTROOMSRESPONSE']._serialized_start=95
+  _globals['_LISTROOMSRESPONSE']._serialized_end=141
+  _globals['_GETROOMREQUEST']._serialized_start=143
+  _globals['_GETROOMREQUEST']._serialized_end=171
+  _globals['_GETROOMRESPONSE']._serialized_start=173
+  _globals['_GETROOMRESPONSE']._serialized_end=232
+  _globals['_ADDROOMREQUEST']._serialized_start=234
+  _globals['_ADDROOMREQUEST']._serialized_end=276
+  _globals['_ADDROOMRESPONSE']._serialized_start=278
+  _globals['_ADDROOMRESPONSE']._serialized_end=323
+  _globals['_REMOVEROOMREQUEST']._serialized_start=325
+  _globals['_REMOVEROOMREQUEST']._serialized_end=356
+  _globals['_REMOVEROOMRESPONSE']._serialized_start=358
+  _globals['_REMOVEROOMRESPONSE']._serialized_end=394
+  _globals['_ROOMSERVICE']._serialized_start=397
+  _globals['_ROOMSERVICE']._serialized_end=649
 # @@protoc_insertion_point(module_scope)
