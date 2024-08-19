@@ -176,7 +176,7 @@ def remove_room(self, room_id: int):
         conn.commit()
         cursor.close()
 ```
-- Using RLM Redis to prevent resource racing from multiple replica - Code in ***use_cases/room_management.py***
+- Using DLM Redis to prevent resource racing from multiple replica - Code in ***use_cases/room_management.py***
 ``` python
 def get_available_per_taken_seat(
     self,
