@@ -30,6 +30,7 @@ An application designed to manage rooms, as well as reserve and cancel seat book
 - **Database**: PostgreSQL
 - **Cache**: Redis
 - [Optional] **Event-Driven System**: Kafka
+
 ![](images/architect.png)
 
 ## Installation
