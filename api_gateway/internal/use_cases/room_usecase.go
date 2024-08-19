@@ -5,16 +5,16 @@ import (
 
 	"api_gateway/internal/entities"
 	"api_gateway/pb"
-	"api_gateway/services"
+	"api_gateway/pkg"
 
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type RoomUseCase struct {
-	grpcClient *services.GRPCClient
+	grpcClient *pkg.GRPCClient
 }
 
-func NewRoomUseCase(grpcClient *services.GRPCClient) *RoomUseCase {
+func NewRoomUseCase(grpcClient *pkg.GRPCClient) *RoomUseCase {
 	return &RoomUseCase{grpcClient: grpcClient}
 }
 

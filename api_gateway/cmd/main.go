@@ -6,7 +6,7 @@ import (
 	"api_gateway/config"
 	"api_gateway/handlers"
 	"api_gateway/internal/use_cases"
-	"api_gateway/services"
+	"api_gateway/pkg"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +16,7 @@ func main() {
 	cfg := config.LoadConfig()
 
 	// Initialize gRPC client
-	grpcClient, err := services.NewGRPCClient(cfg.GRPCServerAddress)
+	grpcClient, err := pkg.NewGRPCClient(cfg.GRPCServerAddress)
 	if err != nil {
 		log.Fatalf("Failed to connect to gRPC server: %v", err)
 	}
