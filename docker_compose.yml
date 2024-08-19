@@ -38,6 +38,7 @@ services:
       - DB_PORT=5432
       - REDIS_HOST=host.docker.internal
       - REDIS_PORT=6379
+      - MIN_DISTANCE=5
     depends_on:
       db:
         condition: service_healthy
@@ -59,6 +60,7 @@ services:
       - DB_PORT=5432
       - REDIS_HOST=host.docker.internal
       - REDIS_PORT=6379
+      - MIN_DISTANCE=5
     depends_on:
       seeder:
         condition: service_completed_successfully
