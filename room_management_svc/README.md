@@ -178,50 +178,29 @@ def remove_room(self, room_id: int):
 ```
 - Using DLM Redis to prevent resource racing from multiple replica - Code in ***use_cases/room_management.py***
 ``` python
-def get_available_per_taken_seat(
-    self,
-    room: Room,
-    min_distance: int,
-    seat_pos_x: int,
-    seat_pos_y: int,
-    cur_position_seats: List[Tuple[int, int]],
+def reverse_room_seats(
+    self, room: Room, seats: List[Tuple[int, int]]
 ) -> List[Tuple[int, int]]:
-    available_seats: List[Tuple[int, int]] = []
-
-    for pos_x in range(room.row):
-        # |pos_x - seat_x| + |pos_y - seat_y| = min_distance
-        # Calculate abs_x
-        abs_x: int = abs(seat_pos_x - pos_x)
-
-        # If abs_x is greater than or equal to min_distance, all seats are available
-        if abs_x >= min_distance:
-            available_seats += list(
-                set([(pos_x, y) for y in range(room.col)]) - set(cur_position_seats)
+    # DLM lock all seats
+    # Aquire lock for all seats to prevent another flow from reserving the same seat
+    lock_keys = []
+    for seat in seats:
+        tmp_lock = self.redis_client.acquire_lock(
+            f"room_seat_{room.id}_{seat[0]}_{seat[1]}", settings.redis_key_ttl
+        )
+        if not tmp_lock:
+            raise Exception(
+                f"Failed to acquire lock for room_seat_{room.id}_{seat[0]}_{seat[1]}"
             )
-            continue
-
-        # Calculate pos_y_min and pos_y_max
-        abs_y: int = min_distance - abs_x
-        pos_y_min: int = seat_pos_y - abs_y
-        pos_y_max: int = seat_pos_y + abs_y
-
-        # pos_y <= pos_y_min so if pos_y_min >= 0 and pos_y_min < self._room.col, pos_y = [0,pos_y_min+1]
-        if pos_y_min >= 0 and pos_y_min < room.col:
-            available_seats += list(
-                set([(pos_x, pos_y) for pos_y in range(0, pos_y_min + 1)])
-                - set(cur_position_seats)
-            )
-
-        # pos_y >= pos_y_max so if pos_y_max >= 0 and pos_y_max < self._room.col, pos_y = [pos_y_max, self._room.col]
-        if pos_y_max >= 0 and pos_y_max < room.col:
-            available_seats += list(
-                set([(pos_x, pos_y) for pos_y in range(pos_y_max, room.col)])
-                - set(cur_position_seats)
-            )
-
-    # Remove duplicate and remove existing seats
-    available_seats = list(set(available_seats))
-    return available_seats
+        lock_keys.append(tmp_lock)
+    try:
+        return self.seat_repository.reverse_seats(room_id=room.id, seats=seats)
+    except Exception as e:
+        raise e
+    finally:
+        # DLM unlock all seats
+        for lock_key in lock_keys:
+            self.redis_client.release_lock(lock_key)
 ```
 
 ## Todo:
