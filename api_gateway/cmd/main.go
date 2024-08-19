@@ -36,6 +36,11 @@ func main() {
 	r.POST("/rooms/:id/seats/reserve", roomHandler.ReserveSeats)
 	r.DELETE("/rooms/:id/seats/cancel", roomHandler.CancelSeats)
 	r.GET("/rooms/:id/seats", roomHandler.ListRoomSeats)
+	r.GET("ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
 	// Start the Gin server
 	if err := r.Run(":8080"); err != nil {
